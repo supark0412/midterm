@@ -21,7 +21,7 @@
 5.	Micropython Codes for rotary, thermometer, valve ( 주의 다음 예의 형식으로 입력하시오)
 
 답)
-io7 thermostata
+io7 thermostat
 ```python
 from IO7FuPython import ConfiguredDevice
 import json
@@ -123,6 +123,42 @@ while True:
     tft.text(font1, f'{round(r2t(value),2)}', 200, 50, st7789.WHITE)
     tft.text(font1, f'{round(r2t(temperature),2)}', 200, 80, st7789.WHITE)
     tft.text(font1, f'{round(r2t(humidity),2)}', 200, 110, st7789.WHITE)
+```
+
+valve
+```python
+from IO7FuPython import ConfiguredDevice
+import json
+import time
+import uComMgr32
+
+def handleCommand(topic, msg):
+    global lastPub
+    jo = json.loads(str(msg,'utf8'))
+    if ("valve" in jo['d']):
+        if jo['d']['valve'] is 'on':
+            valve.on()
+        else:
+            valve.off()
+        lastPub = - device.meta['pubInterval']
+
+nic = uComMgr32.startWiFi('valve')
+device = ConfiguredDevice()
+device.setUserCommand(handleCommand)
+
+device.connect()
+
+from machine import Pin
+valve = Pin(15, Pin.OUT)
+lastPub = time.ticks_ms() - device.meta['pubInterval']
+
+while True:
+    # default is JSON format with QoS 0
+    if not device.loop():
+        break
+    if (time.ticks_ms() - device.meta['pubInterval']) > lastPub:
+        lastPub = time.ticks_ms()
+        device.publishEvent('status', json.dumps({'d':{'valve': 'on' if valve.value() else 'off'}}))
 ```
 6.	Github 링크
 
