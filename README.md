@@ -162,5 +162,5 @@ while True:
 ```
 6.	Github 링크
 
-답)
+답)https://github.com/supark0412/midterm
 
