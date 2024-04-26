@@ -5,7 +5,7 @@
 1.	AWS Clean up Screen shots
 
 답) ![aws1](https://github.com/supark0412/midterm/assets/71921481/657a7575-afd0-4714-953b-e4acec5bdd57)
-
+![aws1_2](https://github.com/supark0412/midterm/assets/71921481/4cf9c9d2-0b14-4aea-9ff1-bc117f894693)
 2.	EC2 instance Domain name
 
 답)
